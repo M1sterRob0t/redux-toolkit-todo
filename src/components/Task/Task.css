@@ -1,0 +1,25 @@
+.task {
+  display: flex;
+  align-items: center;
+
+  text-decoration: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task button {
+  width: 15px;
+  height: 15px;
+
+  margin-left: 10px;
+  background-color: transparent;
+  border: none;
+  background-image: url('./assets/Red_X.png');
+  background-size: contain;
+  cursor: pointer;
+}
+
+.task input:checked + span {
+  text-decoration: line-through;
+}

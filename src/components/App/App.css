@@ -1,0 +1,15 @@
+.app {
+  width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 0 1px 2px black;
+
+}
+
+.app div {
+  text-align: center;
+}
+
+.app form {
+  display: inline;
+  margin: 0 auto;
+}
