@@ -6,9 +6,10 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-bottom: 10px;
 }
 
-.task button {
+.task__button {
   width: 15px;
   height: 15px;
 
@@ -20,6 +21,10 @@
   cursor: pointer;
 }
 
-.task input:checked + span {
+.task__text {
+  margin-left: 10px;
+}
+
+.task__text--crossed {
   text-decoration: line-through;
 }

@@ -1,15 +1,43 @@
 .app {
-  width: 400px;
-  margin: 20px auto;
-  box-shadow: 0 0 1px 2px black;
-
+  width: 100vw - 19px;
+  height: 100vh;
 }
 
-.app div {
+.app--dark {
+  color: white;
+  background-color: black;
+}
+
+.app__inner {
+  width: 400px;
+  padding-top: 30px;
+  margin: 0 auto;
+  /* box-shadow: 0 0 1px 2px black; */
+}
+
+.app__inner div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 }
 
-.app form {
+.app__form {
   display: inline;
   margin: 0 auto;
+}
+
+.app__input {
+  width: 200px;
+  background-color: white;
+  margin-right: 10px;
+}
+
+.app__filter {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.ant-tabs-nav {
+  width: 100%;
 }

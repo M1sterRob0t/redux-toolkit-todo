@@ -1,7 +1,9 @@
-import type { TTask} from '../../types/task';
+import type { TTask } from '../../types/task';
 import './Task.css';
-import { removeTask, toggleTask } from '../../store/tasksReducer';
 import { useAppDispatch } from '../../hooks';
+import { deleteTask, toggleTaskStatus } from '../../store/async-actions';
+import { Checkbox } from 'antd';
+import { memo } from 'react';
 
 interface ITask {
   task: TTask;
@@ -13,17 +15,33 @@ function Task({ task }: ITask): JSX.Element {
   return (
     <li className="task">
       <label>
-        <input
+        <Checkbox
+          className="task__checkox"
           type="checkbox"
           name="completed"
           checked={task.isCompleted}
-          onChange={() => dispatch(toggleTask(task.id))}
+          onChange={() => dispatch(toggleTaskStatus({ ...task, isCompleted: !task.isCompleted }))}
         />
-        <span>{task.text}</span>
-        <button type="button" onClick={() => dispatch(removeTask(task.id))}></button>
+        <span className={`task__text ${task.isCompleted ? 'task__text--crossed' : ''}`}>
+          {task.text}
+        </span>
+        <button
+          className="task__button"
+          type="button"
+          onClick={() => dispatch(deleteTask(task.id))}
+        ></button>
       </label>
     </li>
   );
 }
 
-export default Task;
+export default memo(Task, (oldProps, currentProps) => {
+  const statusTheSame = oldProps.task.isCompleted === currentProps.task.isCompleted;
+  const textTheSame = oldProps.task.text === currentProps.task.text;
+
+  if (statusTheSame && textTheSame) {
+    return true;
+  }
+
+  return false;
+});

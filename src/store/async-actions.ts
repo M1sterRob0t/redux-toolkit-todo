@@ -1,28 +1,68 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { serverTaskAdapter, serverTasksAdapter, taskAdapter } from './adapters';
 import type { TServerTask, TTask } from '../types/task';
 
-const BASE_URL = 'https://14.ecmascript.pages.academy/task-manager/tasks';
-const AUTH_TOKEN = 'Basic fjsdfuyh2c8#294yr2#^497&8ryc^74x9$ryb7yc3c4978@sad'
+const BASE_URL = 'http://localhost:3001/tasks';
 const headers = {
   'Content-Type': 'application/json',
-  Authorization: AUTH_TOKEN,
 };
 
-function tasksAdapter(serverTasks: TServerTask[]): TTask[] {
-  return serverTasks
-    .filter((task, index) => {
-      const lastIndex = serverTasks.findLastIndex((el) => el.description === task.description);
-      return index === lastIndex;
-    })
-    .map((task) => ({
-      id: task.id,
-      text: task.description,
-      isCompleted: task.is_archived,
-    }));
-}
 
-export function fetchTasks(): Promise<void | TTask[]> {
-  return fetch(BASE_URL, { headers })
-    .then((data) => data.json())
-    .then((data: TServerTask[]) => tasksAdapter(data))
-    .catch((err) => console.error(err));
-}
+export const fetchTasks = createAsyncThunk(
+  'tasks/fetchTasks',
+  async function (): Promise<TTask[]> {
+    const response = await fetch(BASE_URL, { headers });
+    const serverTasks: TServerTask[] = await response.json();
+    const tasks = serverTasksAdapter(serverTasks);
+    return tasks;
+  }
+);
+
+export const postTask = createAsyncThunk(
+  'tasks/postTask',
+  async function (newTask: TTask): Promise<TTask> {
+    const response = await fetch(BASE_URL, {
+      headers,
+      method: 'POST',
+      body: JSON.stringify(taskAdapter(newTask)),
+    });
+
+    const serverTask: TServerTask = await response.json();
+    const task = serverTaskAdapter(serverTask);
+    return task;
+  }
+);
+
+export const deleteTask = createAsyncThunk(
+  'tasks/deleteTask',
+  async function (id: string, {rejectWithValue}) {
+    const response = await fetch(BASE_URL + '/' + id, {
+      headers,
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      return rejectWithValue(response);
+    } else {
+      return id;
+    }
+  }
+);
+
+export const toggleTaskStatus = createAsyncThunk(
+  'tasks/toggleTaskStatus',
+  async function (updatedTask: TTask, {rejectWithValue}) {
+    const response = await fetch(BASE_URL + '/' + updatedTask.id, {
+      headers,
+      method: 'PUT',
+      body: JSON.stringify(taskAdapter(updatedTask)),
+    });
+
+    if (!response.ok) {
+      return rejectWithValue(response);
+    } else {
+      return updatedTask.id;
+    }
+  }
+);
+

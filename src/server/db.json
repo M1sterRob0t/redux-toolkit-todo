@@ -1,0 +1,44 @@
+{
+  "tasks": [
+    {
+      "id": "wIqMzwo0df5NAhQfdO6iA",
+      "description": "Прочитать 20 книг за год",
+      "is_completed": true
+    },
+    {
+      "id": "m-gxsL8eGE7FzoEF7K0nF",
+      "description": "Получить оффер на 300к",
+      "is_completed": true
+    },
+    {
+      "id": "YyiikVr-zk-f8bzfzyKPc",
+      "description": "50 000 $ капитала",
+      "is_completed": true
+    },
+    {
+      "id": "62MT1WmUsBgEpSycBo5f5",
+      "description": "1000$ чистой прибыли в месяц с программирования",
+      "is_completed": false
+    },
+    {
+      "id": "pdIWLS7zJS2AnpvTGwW98",
+      "description": "80 кг рельефной мышечной массы",
+      "is_completed": false
+    },
+    {
+      "id": "ZZurH3VGE6GYZNPEZb7YE",
+      "description": "Вылечить насморк",
+      "is_completed": false
+    },
+    {
+      "id": "54L1ayxL3qOuwQyHsZXcY",
+      "description": "Трахнуть Вику",
+      "is_completed": true
+    },
+    {
+      "id": "wnNs2xqWqBfiHY0Mvy0Ur",
+      "description": "Английский на уровне native speaker",
+      "is_completed": true
+    }
+  ]
+}
