@@ -28,7 +28,7 @@
     {
       "id": "ZZurH3VGE6GYZNPEZb7YE",
       "description": "Вылечить насморк",
-      "is_completed": true
+      "is_completed": false
     },
     {
       "id": "54L1ayxL3qOuwQyHsZXcY",
@@ -39,6 +39,11 @@
       "id": "wnNs2xqWqBfiHY0Mvy0Ur",
       "description": "Английский на уровне native speaker",
       "is_completed": true
+    },
+    {
+      "id": "BNXjt_3fGx302MaXemli4",
+      "description": "sadsadsad",
+      "is_completed": false
     }
   ]
 }
