@@ -1,44 +1,44 @@
-import { Button, Input } from 'antd';
+import { Button, Input, Form } from 'antd';
 import { nanoid } from 'nanoid';
-import { useAppDispatch } from '../../hooks';
-import { postTask } from '../../store/async-actions';
 import { memo } from 'react';
-
+import { usePostTaskMutation } from '../../store/api';
 
 const FormElementName = {
   NewTask: 'new-task',
 };
 
 function NewTaskForm() {
-  const dispatch = useAppDispatch();
+  const [postTask] = usePostTaskMutation();
+  const [antdForm] = Form.useForm();
 
   function onAddNewTask(evt: React.FormEvent<HTMLFormElement>) {
     evt.preventDefault();
 
-    const form = evt.currentTarget;
-    const formData = new FormData(form);
-    const description = formData.get(FormElementName.NewTask);
-
+    const description = antdForm.getFieldValue(FormElementName.NewTask);
     if (description && typeof description === 'string') {
-      dispatch(
-        postTask({
-          id: nanoid(),
-          text: description,
-          isCompleted: false,
-        })
-      );
+      postTask({
+        id: nanoid(),
+        text: description,
+        isCompleted: false,
+      }).then(() => {
+        antdForm.resetFields();
+      });
     }
-
-    form[FormElementName.NewTask].value = '';
   }
 
   return (
-    <form className="app__form" onSubmit={onAddNewTask}>
-      <Input className="app__input" type="text" name={FormElementName.NewTask} />
+    <Form
+      className="app__form"
+      onSubmitCapture={onAddNewTask}
+      form={antdForm}
+    >
+      <Form.Item className="app__input" name={FormElementName.NewTask}>
+        <Input />
+      </Form.Item>
       <Button className="app__button" type="primary" htmlType="submit">
         Add new task
       </Button>
-    </form>
+    </Form>
   );
 }
 

@@ -19,3 +19,5 @@ export enum FilterType {
   Active = 'Active',
   Completed = 'Completed',
 };
+
+export const BASE_URL = 'http://localhost:3001/';

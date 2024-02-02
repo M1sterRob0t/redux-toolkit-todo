@@ -1,16 +1,16 @@
 import type { TTask } from '../../types/task';
 import './Task.css';
-import { useAppDispatch } from '../../hooks';
-import { deleteTask, toggleTaskStatus } from '../../store/async-actions';
 import { Checkbox } from 'antd';
 import { memo } from 'react';
+import { useDeleteTaskMutation, useToggleTaskMutation } from '../../store/api';
 
 interface ITask {
   task: TTask;
 }
 
 function Task({ task }: ITask): JSX.Element {
-  const dispatch = useAppDispatch();
+  const [toggleTaskStatus] = useToggleTaskMutation();
+  const [deleteTask] = useDeleteTaskMutation();
 
   return (
     <li className="task">
@@ -20,7 +20,7 @@ function Task({ task }: ITask): JSX.Element {
           type="checkbox"
           name="completed"
           checked={task.isCompleted}
-          onChange={() => dispatch(toggleTaskStatus({ ...task, isCompleted: !task.isCompleted }))}
+          onChange={() => toggleTaskStatus({ ...task, isCompleted: !task.isCompleted })}
         />
         <span className={`task__text ${task.isCompleted ? 'task__text--crossed' : ''}`}>
           {task.text}
@@ -28,7 +28,7 @@ function Task({ task }: ITask): JSX.Element {
         <button
           className="task__button"
           type="button"
-          onClick={() => dispatch(deleteTask(task.id))}
+          onClick={() => deleteTask(task.id)}
         ></button>
       </label>
     </li>

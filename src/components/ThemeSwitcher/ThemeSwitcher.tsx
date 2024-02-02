@@ -2,14 +2,15 @@ import { Switch } from 'antd';
 import './ThemeSwitcher.css';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectThemeStatus, switchTheme } from '../../store/reducers/theme/themeReducer';
+import { memo } from 'react';
 
 function ThemeSwitcher() {
   const isDarkMode = useAppSelector(selectThemeStatus);
   const dispatch = useAppDispatch();
 
-  const onChange = () => {
+  function onChange() {
     dispatch(switchTheme());
-  };
+  }
 
   return (
     <div className='theme-switcher'>
@@ -21,4 +22,4 @@ function ThemeSwitcher() {
   );
 }
 
-export default ThemeSwitcher;
+export default memo(ThemeSwitcher);

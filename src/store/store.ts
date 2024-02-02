@@ -1,17 +1,18 @@
-import { configureStore } from '@reduxjs/toolkit'
-import tasksReducer from './reducers/tasks/tasksReducer'
-import themeReducer from './reducers/theme/themeReducer'
-import filterReducer from './reducers/filter/filterReducer'
-
+import { configureStore } from '@reduxjs/toolkit';
+import themeReducer from './reducers/theme/themeReducer';
+import filterReducer from './reducers/filter/filterReducer';
+import { tasksApi } from './api';
+import { rtkQueryErrorLogger } from './error-middleware';
 
 export const store = configureStore({
   reducer: {
-    tasks: tasksReducer,
     theme: themeReducer,
     filter: filterReducer,
+    [tasksApi.reducerPath]: tasksApi.reducer,
   },
-})
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(rtkQueryErrorLogger).concat(tasksApi.middleware),
+});
 
-
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

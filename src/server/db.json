@@ -8,7 +8,7 @@
     {
       "id": "m-gxsL8eGE7FzoEF7K0nF",
       "description": "Получить оффер на 300к",
-      "is_completed": true
+      "is_completed": false
     },
     {
       "id": "YyiikVr-zk-f8bzfzyKPc",
@@ -18,17 +18,17 @@
     {
       "id": "62MT1WmUsBgEpSycBo5f5",
       "description": "1000$ чистой прибыли в месяц с программирования",
-      "is_completed": false
+      "is_completed": true
     },
     {
       "id": "pdIWLS7zJS2AnpvTGwW98",
       "description": "80 кг рельефной мышечной массы",
-      "is_completed": false
+      "is_completed": true
     },
     {
       "id": "ZZurH3VGE6GYZNPEZb7YE",
       "description": "Вылечить насморк",
-      "is_completed": false
+      "is_completed": true
     },
     {
       "id": "54L1ayxL3qOuwQyHsZXcY",

@@ -1,33 +1,31 @@
-import { useEffect } from 'react';
 import TasksList from '../TasksList/TasksList';
 import './App.css';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchTasks } from '../../store/async-actions';
-import { selectTasksState } from '../../store/reducers/tasks/tasksReducer';
+import { useAppSelector } from '../../hooks';
 import Loading from '../Loading/Loading';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FilterType, toastConfig } from '../../constants';
+import { FilterType } from '../../constants';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import { selectThemeStatus } from '../../store/reducers/theme/themeReducer';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import 'react-toastify/dist/ReactToastify.css';
-import { Tabs } from 'antd';
-import type { TabsProps } from 'antd';
-import { selectCurrentFilter, switchFilter } from '../../store/reducers/filter/filterReducer';
+
+import { selectCurrentFilter } from '../../store/reducers/filter/filterReducer';
 import type { TTask } from '../../types/task';
+import { useGetTasksQuery } from '../../store/api';
+import Filter from '../Filter/Filter';
 
 function filterTasks(tasks: TTask[], filter: FilterType) {
-  switch(filter) {
+  switch (filter) {
     case FilterType.All: {
       return tasks;
     }
     case FilterType.Active: {
-      return tasks.filter((task) => !task.isCompleted)
+      return tasks.filter((task) => !task.isCompleted);
     }
     case FilterType.Completed: {
-      return tasks.filter((task) => task.isCompleted)
+      return tasks.filter((task) => task.isCompleted);
     }
     default: {
       return tasks;
@@ -35,39 +33,13 @@ function filterTasks(tasks: TTask[], filter: FilterType) {
   }
 }
 
-const tabs: TabsProps['items'] = [
-  {
-    key: FilterType.All,
-    label: FilterType.All,
-  },
-  {
-    key: FilterType.Active,
-    label: FilterType.Active,
-  },
-  {
-    key: FilterType.Completed,
-    label: FilterType.Completed,
-  },
-];
-
 function App(): JSX.Element {
-  const dispatch = useAppDispatch();
-  const {error, isLoading, list: tasks} = useAppSelector(selectTasksState);
+  const { data: tasks, isFetching } = useGetTasksQuery();
+
   const currentFilter = useAppSelector(selectCurrentFilter);
   const isDarkMode = useAppSelector(selectThemeStatus);
-  const filteredTodos = filterTasks(tasks, currentFilter);
 
-  useEffect(() => {
-    dispatch(fetchTasks());
-  }, [dispatch]);
-
-  if (error) {
-    toast.error(`${error.status} - ${error.statusText}`, toastConfig);
-  }
-
-  function onFilterChange(key: string) {
-    dispatch(switchFilter(key as FilterType));
-  }
+  const filteredTodos = tasks ? filterTasks(tasks, currentFilter) : [];
 
   return (
     <div className={`app ${isDarkMode ? 'app--dark' : ``}`}>
@@ -76,8 +48,8 @@ function App(): JSX.Element {
           <ThemeSwitcher />
           <NewTaskForm />
         </div>
-        <Tabs className="app__filter" activeKey={currentFilter} items={tabs} onChange={onFilterChange} />
-        {isLoading && <Loading />}
+        <Filter className="app__filter"currentFilter={currentFilter} />
+        {isFetching && <Loading />}
         <TasksList tasks={filteredTodos} />
         <ToastContainer />
       </div>
